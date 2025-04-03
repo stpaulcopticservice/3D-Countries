@@ -1,11 +1,12 @@
-// 1. Set up the basics (unchanged)
+// 1. Set up the basics
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('globe').appendChild(renderer.domElement);
 
-// 2. Create the Earth (unchanged)
+
+// 2. Create the Earth
 const earthSize = 5;
 const geometry = new THREE.SphereGeometry(earthSize, 32, 32);
 const texture = new THREE.TextureLoader().load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg');
@@ -13,33 +14,42 @@ const material = new THREE.MeshBasicMaterial({ map: texture });
 const earth = new THREE.Mesh(geometry, material);
 scene.add(earth);
 
-// 3. Position the camera (unchanged)
+// 3. Position the camera
 camera.position.z = 15;
 let targetZ = camera.position.z;
 
-// 4. Add a flag (unchanged)
+// 4. Add a flag (example: USA)
+// Helper function to create a text sprite
 function createTextSprite(text) {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     const fontSize = 32;
     context.font = `${fontSize}px Arial`;
+    
+    // Measure text width to set canvas size
     const textWidth = context.measureText(text).width;
-    canvas.width = textWidth + 20;
+    canvas.width = textWidth + 20; // Add padding
     canvas.height = fontSize + 20;
+    
+    // Redraw text on the canvas
     context.font = `${fontSize}px Arial`;
     context.fillStyle = 'white';
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.fillText(text, canvas.width / 2, canvas.height / 2);
+    
+    // Create texture and sprite
     const texture = new THREE.Texture(canvas);
     texture.needsUpdate = true;
     const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
     const sprite = new THREE.Sprite(spriteMaterial);
-    sprite.scale.set(canvas.width / 100, canvas.height / 100, 1);
+    sprite.scale.set(canvas.width / 100, canvas.height / 100, 1); // Adjust scale
     return sprite;
 }
 
+// Updated addFlag function to include country name
 function addFlag(lat, lon, imagePath, description, url) {
+    console.log(`Trying to load flag: ${imagePath}`);
     const flagTexture = new THREE.TextureLoader().load(imagePath);
     const flagMaterial = new THREE.SpriteMaterial({ map: flagTexture });
     const flag = new THREE.Sprite(flagMaterial);
@@ -48,9 +58,11 @@ function addFlag(lat, lon, imagePath, description, url) {
     flag.position.copy(position);
     flag.userData = { description, url };
     earth.add(flag);
-    const textSprite = createTextSprite(description.split(' ').slice(-1)[0]);
+
+    // Add country name as a text sprite
+    const textSprite = createTextSprite(description.split(' ').slice(-1)[0]); // Use last word (e.g., "America" or "Brazil")
     textSprite.position.copy(position);
-    textSprite.position.x += 1;
+    textSprite.position.x += 1; // Offset to the right of the flag
     earth.add(textSprite);
 }
 
@@ -67,32 +79,32 @@ function latLonToVector3(lat, lon, radius) {
 addFlag(37.0902, -95.7129, 'https://flagcdn.com/32x24/us.png', 'United States of America', 'https://en.wikipedia.org/wiki/United_States');
 addFlag(-14.2350, -51.9253, 'https://flagcdn.com/32x24/br.png', 'Brazil', 'https://en.wikipedia.org/wiki/Brazil');
 
-// 5. Mouse and Touch Controls (unchanged)
+// 5. Rotate the Earth with the mouse
 let isDragging = false;
 let previousMouse = { x: 0, y: 0 };
-let previousTouch = { x: 0, y: 0, dist: 0 };
+let previousTouch = { x: 0, y: 0, dist: 0 }; // For touch position and pinch distance
 
-document.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    previousMouse = { x: e.clientX, y: e.clientY };
-});
+// Mouse events
+document.addEventListener('mousedown', (e) => { isDragging = true; });
 document.addEventListener('mousemove', (e) => {
     if (isDragging) {
         const delta = { x: e.clientX - previousMouse.x, y: e.clientY - previousMouse.y };
         earth.rotation.y += delta.x * 0.005;
         earth.rotation.x += delta.y * 0.005;
-        previousMouse = { x: e.clientX, y: e.clientY };
     }
+    previousMouse = { x: e.clientX, y: e.clientY };
 });
 document.addEventListener('mouseup', () => { isDragging = false; });
 
+// Touch events
 document.addEventListener('touchstart', (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent scrolling
     if (e.touches.length === 1) {
         isDragging = true;
         previousTouch.x = e.touches[0].clientX;
         previousTouch.y = e.touches[0].clientY;
     } else if (e.touches.length === 2) {
+        // Pinch-to-zoom: calculate initial distance between two fingers
         const dx = e.touches[0].clientX - e.touches[1].clientX;
         const dy = e.touches[0].clientY - e.touches[1].clientY;
         previousTouch.dist = Math.sqrt(dx * dx + dy * dy);
@@ -111,12 +123,13 @@ document.addEventListener('touchmove', (e) => {
         previousTouch.x = e.touches[0].clientX;
         previousTouch.y = e.touches[0].clientY;
     } else if (e.touches.length === 2) {
+        // Pinch-to-zoom: calculate new distance and adjust zoom
         const dx = e.touches[0].clientX - e.touches[1].clientX;
         const dy = e.touches[0].clientY - e.touches[1].clientY;
         const newDist = Math.sqrt(dx * dx + dy * dy);
         const deltaDist = newDist - previousTouch.dist;
-        targetZ -= deltaDist * 0.05;
-        targetZ = Math.max(6, Math.min(30, targetZ));
+        targetZ -= deltaDist * 0.05; // Adjust zoom speed
+        targetZ = Math.max(6, Math.min(30, targetZ)); // Clamp zoom
         previousTouch.dist = newDist;
     }
 }, { passive: false });
@@ -151,23 +164,20 @@ function showPopup(event, x, y) {
             document.body.appendChild(popup);
             isPopupClick = true;
 
-            // Debug: Log when popup is created
-            console.log('Popup created with link:', clicked.userData.url);
-
-            // Ensure the link doesn’t trigger popup closure
+            // Add click handler to the link to ensure navigation
             const link = popup.querySelector('.visit-link');
             link.addEventListener('click', (e) => {
                 e.stopPropagation(); // Prevent popup closure
-                console.log('Link clicked on desktop:', clicked.userData.url);
-            });
-            link.addEventListener('touchend', (e) => {
-                e.stopPropagation(); // Prevent popup closure
-                e.preventDefault(); // Prevent any default touch behavior
-                console.log('Link tapped on mobile:', clicked.userData.url);
-                // Let the native <a> tag handle navigation
+                window.open(clicked.userData.url, '_blank'); // Force navigation
             });
 
-            console.log('Popup positioned at:', x + 10, y + 10);
+            // Add touch handler for mobile
+            link.addEventListener('touchend', (e) => {
+                e.stopPropagation(); // Prevent popup closure
+                window.open(clicked.userData.url, '_blank'); // Force navigation
+            });
+
+            console.log('Popup created at:', x + 10, y + 10);
         } else {
             console.log('No description found on clicked object');
         }
@@ -196,7 +206,7 @@ document.addEventListener('click', (e) => {
     if (popup && !isPopupClick && !popup.contains(e.target)) {
         popup.remove();
         popup = null;
-        console.log('Popup removed via click');
+        console.log('Popup removed');
     }
 });
 
@@ -204,60 +214,90 @@ document.addEventListener('touchend', (e) => {
     if (popup && !isPopupClick && !popup.contains(e.target)) {
         popup.remove();
         popup = null;
-        console.log('Popup removed via touch');
+        console.log('Popup removed');
     }
 });
 
-// 7. Mouse wheel zoom (unchanged)
+// 7. Add zoom with mouse wheel (no smoothing yet)
 document.addEventListener('wheel', (e) => {
     e.preventDefault();
     const zoomSpeed = 0.005;
-    targetZ += e.deltaY * zoomSpeed;
-    targetZ = Math.max(6, Math.min(30, targetZ));
+    targetZ += e.deltaY * zoomSpeed; // Update targetZ based on scroll
+    targetZ = Math.max(6, Math.min(30, targetZ)); // Clamp between 6 and 30
+    console.log('Zoom targetZ:', targetZ); // Debug zoom value
 }, { passive: false });
 
-// 8. Galaxy Background (unchanged)
+// Galaxy Background
+// Create a starfield background
 const starsGeometry = new THREE.BufferGeometry();
 const starVertices = [];
-const starVelocities = [];
-const starOpacities = [];
+const starVelocities = []; // For smooth motion
+const starOpacities = []; // For blinking
+
 for (let i = 0; i < 1000; i++) {
     const x = (Math.random() - 0.5) * 2000;
     const y = (Math.random() - 0.5) * 2000;
     const z = (Math.random() - 0.5) * 2000;
     starVertices.push(x, y, z);
-    starVelocities.push((Math.random() - 0.5) * 0.1, (Math.random() - 0.5) * 0.1, (Math.random() - 0.5) * 0.1);
-    starOpacities.push(Math.random());
+    // Random small velocity for each star
+    starVelocities.push(
+        (Math.random() - 0.5) * 0.1, // x velocity
+        (Math.random() - 0.5) * 0.1, // y velocity
+        (Math.random() - 0.5) * 0.1  // z velocity
+    );
+    starOpacities.push(Math.random()); // Initial opacity
 }
+
 starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-const starsMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 1, transparent: true, opacity: 1 });
+const starsMaterial = new THREE.PointsMaterial({ 
+    color: 0xffffff, 
+    size: 1, 
+    transparent: true, // Enable transparency for blinking
+    opacity: 1 // Base opacity, will be modulated
+});
 const starField = new THREE.Points(starsGeometry, starsMaterial);
 scene.add(starField);
 
-// 9. Animation loop (unchanged)
+// 8. Animation loop
 function animate() {
     requestAnimationFrame(animate);
     const smoothingFactor = 0.1;
     camera.position.z += (targetZ - camera.position.z) * smoothingFactor;
+    
+    // Auto-rotate the Earth
     earth.rotation.y += 0.001;
+
+    // Animate stars: blinking and smooth motion
     const positions = starsGeometry.attributes.position.array;
-    const time = Date.now() * 0.01;
+    const time = Date.now() * 0.01; // Slow time factor for blinking
+
     for (let i = 0; i < positions.length; i += 3) {
-        positions[i] += starVelocities[i];
-        positions[i + 1] += starVelocities[i + 1];
-        positions[i + 2] += starVelocities[i + 2];
+        // Smooth motion
+        positions[i] += starVelocities[i];     // x
+        positions[i + 1] += starVelocities[i + 1]; // y
+        positions[i + 2] += starVelocities[i + 2]; // z
+
+        // Wrap around if stars move too far (keeps them in view)
         if (Math.abs(positions[i]) > 1000) positions[i] -= Math.sign(positions[i]) * 2000;
         if (Math.abs(positions[i + 1]) > 1000) positions[i + 1] -= Math.sign(positions[i + 1]) * 2000;
         if (Math.abs(positions[i + 2]) > 1000) positions[i + 2] -= Math.sign(positions[i + 2]) * 2000;
-        starOpacities[i / 3] = 0.5 + 0.5 * Math.sin(time + i);
+
+        // Blinking: update opacity based on sine wave
+        starOpacities[i / 3] = 0.5 + 0.5 * Math.sin(time + i); // Varies between 0 and 1
     }
+
+    // Update star positions
     starsGeometry.attributes.position.needsUpdate = true;
-    starsMaterial.opacity = 0.5 + 0.5 * Math.sin(time * 0.1);
+
+    // Update star opacities (requires custom handling since PointsMaterial doesn't support per-point opacity natively)
+    // For simplicity, we'll adjust the material opacity globally, but for individual blinking, you'd need a shader
+    starsMaterial.opacity = 0.5 + 0.5 * Math.sin(time * 0.1); // Slower global blink as a fallback
+
     renderer.render(scene, camera);
 }
 animate();
 
-// 10. Fix size if window changes (unchanged)
+// 9. Fix size if window changes
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();

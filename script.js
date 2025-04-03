@@ -145,7 +145,7 @@ const mouse = new THREE.Vector2();
 let popup = null;
 let isPopupClick = false;
 
-// Function to handle popup creation (shared between click and touch)
+// Function to handle popup creation
 function showPopup(event, x, y) {
     mouse.x = (x / window.innerWidth) * 2 - 1;
     mouse.y = -(y / window.innerHeight) * 2 + 1;
@@ -158,12 +158,25 @@ function showPopup(event, x, y) {
             if (popup) popup.remove();
             popup = document.createElement('div');
             popup.className = 'popup';
-            popup.innerHTML = `${clicked.userData.description}<br><a href="${clicked.userData.url}" target="_blank">Visit</a>`;
+            popup.innerHTML = `${clicked.userData.description}<br><a href="${clicked.userData.url}" target="_blank" class="visit-link">Visit</a>`;
             popup.style.left = `${x + 10}px`;
             popup.style.top = `${y + 10}px`;
             document.body.appendChild(popup);
             isPopupClick = true;
-            event.stopPropagation();
+
+            // Add click handler to the link to ensure navigation
+            const link = popup.querySelector('.visit-link');
+            link.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent popup closure
+                window.open(clicked.userData.url, '_blank'); // Force navigation
+            });
+
+            // Add touch handler for mobile
+            link.addEventListener('touchend', (e) => {
+                e.stopPropagation(); // Prevent popup closure
+                window.open(clicked.userData.url, '_blank'); // Force navigation
+            });
+
             console.log('Popup created at:', x + 10, y + 10);
         } else {
             console.log('No description found on clicked object');
@@ -182,7 +195,7 @@ document.addEventListener('click', (e) => {
 // Touch end for mobile
 document.addEventListener('touchend', (e) => {
     e.preventDefault();
-    if (e.changedTouches.length === 1 && !isDragging) { // Only trigger if not dragging
+    if (e.changedTouches.length === 1 && !isDragging) {
         const touch = e.changedTouches[0];
         showPopup(e, touch.clientX, touch.clientY);
     }

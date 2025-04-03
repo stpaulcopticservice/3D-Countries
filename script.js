@@ -82,7 +82,9 @@ addFlag(-14.2350, -51.9253, 'https://flagcdn.com/32x24/br.png', 'Brazil', 'https
 // 5. Rotate the Earth with the mouse
 let isDragging = false;
 let previousMouse = { x: 0, y: 0 };
+let previousTouch = { x: 0, y: 0, dist: 0 }; // For touch position and pinch distance
 
+// Mouse events
 document.addEventListener('mousedown', (e) => { isDragging = true; });
 document.addEventListener('mousemove', (e) => {
     if (isDragging) {
@@ -93,6 +95,49 @@ document.addEventListener('mousemove', (e) => {
     previousMouse = { x: e.clientX, y: e.clientY };
 });
 document.addEventListener('mouseup', () => { isDragging = false; });
+
+// Touch events
+document.addEventListener('touchstart', (e) => {
+    e.preventDefault(); // Prevent scrolling
+    if (e.touches.length === 1) {
+        isDragging = true;
+        previousTouch.x = e.touches[0].clientX;
+        previousTouch.y = e.touches[0].clientY;
+    } else if (e.touches.length === 2) {
+        // Pinch-to-zoom: calculate initial distance between two fingers
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        previousTouch.dist = Math.sqrt(dx * dx + dy * dy);
+    }
+}, { passive: false });
+
+document.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    if (e.touches.length === 1 && isDragging) {
+        const delta = {
+            x: e.touches[0].clientX - previousTouch.x,
+            y: e.touches[0].clientY - previousTouch.y
+        };
+        earth.rotation.y += delta.x * 0.005;
+        earth.rotation.x += delta.y * 0.005;
+        previousTouch.x = e.touches[0].clientX;
+        previousTouch.y = e.touches[0].clientY;
+    } else if (e.touches.length === 2) {
+        // Pinch-to-zoom: calculate new distance and adjust zoom
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const newDist = Math.sqrt(dx * dx + dy * dy);
+        const deltaDist = newDist - previousTouch.dist;
+        targetZ -= deltaDist * 0.05; // Adjust zoom speed
+        targetZ = Math.max(6, Math.min(30, targetZ)); // Clamp zoom
+        previousTouch.dist = newDist;
+    }
+}, { passive: false });
+
+document.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    isDragging = false;
+});
 
 // 6. Click flags for popups
 const raycaster = new THREE.Raycaster();

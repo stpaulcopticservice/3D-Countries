@@ -139,15 +139,16 @@ document.addEventListener('touchend', (e) => {
     isDragging = false;
 });
 
-// 6. Click flags for popups
+// 6. Click/Touch flags for popups
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 let popup = null;
+let isPopupClick = false;
 
-// Show popup when clicking a flag
-document.addEventListener('click', (e) => {
-    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+// Function to handle popup creation (shared between click and touch)
+function showPopup(event, x, y) {
+    mouse.x = (x / window.innerWidth) * 2 - 1;
+    mouse.y = -(y / window.innerHeight) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
     const intersects = raycaster.intersectObjects(scene.children, true);
 
@@ -158,22 +159,36 @@ document.addEventListener('click', (e) => {
             popup = document.createElement('div');
             popup.className = 'popup';
             popup.innerHTML = `${clicked.userData.description}<br><a href="${clicked.userData.url}" target="_blank">Visit</a>`;
-            popup.style.left = `${e.clientX + 10}px`;
-            popup.style.top = `${e.clientY + 10}px`;
+            popup.style.left = `${x + 10}px`;
+            popup.style.top = `${y + 10}px`;
             document.body.appendChild(popup);
-	    console.log('Popup created at:', e.clientX + 10, e.clientY + 10);
-            isPopupClick = true; // Mark this click as the popup creator
-e.stopPropagation(); // Prevent the outside-click listener from closing it immediately
+            isPopupClick = true;
+            event.stopPropagation();
+            console.log('Popup created at:', x + 10, y + 10);
         } else {
             console.log('No description found on clicked object');
         }
     } else {
         console.log('No intersects detected');
     }
-    
     setTimeout(() => { isPopupClick = false; }, 0);
+}
+
+// Mouse click for desktop
+document.addEventListener('click', (e) => {
+    showPopup(e, e.clientX, e.clientY);
 });
 
+// Touch end for mobile
+document.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    if (e.changedTouches.length === 1 && !isDragging) { // Only trigger if not dragging
+        const touch = e.changedTouches[0];
+        showPopup(e, touch.clientX, touch.clientY);
+    }
+}, { passive: false });
+
+// Close popup when clicking/touching outside
 document.addEventListener('click', (e) => {
     if (popup && !isPopupClick && !popup.contains(e.target)) {
         popup.remove();
@@ -182,7 +197,13 @@ document.addEventListener('click', (e) => {
     }
 });
 
-
+document.addEventListener('touchend', (e) => {
+    if (popup && !isPopupClick && !popup.contains(e.target)) {
+        popup.remove();
+        popup = null;
+        console.log('Popup removed');
+    }
+});
 
 // 7. Add zoom with mouse wheel (no smoothing yet)
 document.addEventListener('wheel', (e) => {

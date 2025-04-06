@@ -16,6 +16,8 @@ scene.add(earth);
 
 // 3. Position the camera
 camera.position.z = 15;
+camera.position.set(10, 5, 10); // X:10 (right), Y:5 (up), Z:10 (forward)
+camera.lookAt(0, 0, 0); // Point camera at Earth's center
 let targetZ = camera.position.z;
 
 // 4. Add a flag (example: USA)

@@ -54,7 +54,7 @@ function addFlag(lat, lon, imagePath, description, url) {
     const flagMaterial = new THREE.SpriteMaterial({ map: flagTexture });
     const flag = new THREE.Sprite(flagMaterial);
     flag.scale.set(0.5, 0.5, 1);
-    const flagPosition = latLonToVector3(lat, lon, earthSize + 0.1);
+    const flagPosition = latLonToVector3(lat, lon, earthSize + 0.01);
     flag.position.copy(flagPosition);
     flag.userData = { description, url };
     earth.add(flag);
@@ -63,7 +63,7 @@ function addFlag(lat, lon, imagePath, description, url) {
     const textSprite = createTextSprite(description.split(' ').slice(-1)[0]); // Use last word (e.g., "America" or "Brazil")
     const textPosition = latLonToVector3(lat, lon, earthSize + 0.1);
     textSprite.position.copy(textPosition);
-    textSprite.position.y += 0.1; // Offset to the right of the flag
+    textSprite.position.y += 0.01; // Offset to the right of the flag
     earth.add(textSprite);
 }
 

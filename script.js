@@ -61,9 +61,9 @@ function addFlag(lat, lon, imagePath, description, url) {
 
     // Add country name as a text sprite
     const textSprite = createTextSprite(description.split(' ').slice(-1)[0]); // Use last word (e.g., "America" or "Brazil")
-    const textPosition = latLonToVector3(lat, lon, earthSize + 0.3);
+    const textPosition = latLonToVector3(lat, lon, earthSize + 0.1);
     textSprite.position.copy(textPosition);
-    textSprite.position.y += 0.5; // Offset to the right of the flag
+    textSprite.position.y += 0.1; // Offset to the right of the flag
     earth.add(textSprite);
 }
 

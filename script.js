@@ -13,7 +13,8 @@ const texture = new THREE.TextureLoader().load('https://threejs.org/examples/tex
 const material = new THREE.MeshBasicMaterial({ map: texture });
 const earth = new THREE.Mesh(geometry, material);
 // Set initial rotation to show Africa (approximately 20° east longitude)
-earth.rotation.y = 20 * (Math.PI / 180); // Rotate 20 degrees eastward to center Africa
+earth.rotation.y = 30 * (Math.PI / 180); // Rotate 20 degrees eastward to center Africa
+console.log('Initial earth.rotation.y:', earth.rotation.y); // Should output ~0.5236 radians (30°)
 scene.add(earth);
 
 // 3. Position the camera
@@ -304,7 +305,7 @@ function animate() {
     camera.position.z += (targetZ - camera.position.z) * smoothingFactor;
     
     // Auto-rotate the Earth
-    earth.rotation.y += 0.001;
+    ////earth.rotation.y += 0.001;
 
     // Animate stars: blinking and smooth motion
     const positions = starsGeometry.attributes.position.array;

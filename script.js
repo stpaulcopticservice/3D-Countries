@@ -13,13 +13,14 @@ const texture = new THREE.TextureLoader().load('https://threejs.org/examples/tex
 const material = new THREE.MeshBasicMaterial({ map: texture });
 const earth = new THREE.Mesh(geometry, material);
 // Set initial rotation to show Africa (approximately 20° east longitude)
-earth.rotation.y = -270 * (Math.PI / 180); // Rotate 20 degrees eastward to center Africa
+earth.rotation.y = 45 * (Math.PI / 180); // Rotate 20 degrees eastward to center Africa
 console.log('Initial earth.rotation.y:', earth.rotation.y); // Should output ~0.5236 radians (30°)
 scene.add(earth);
 
 // 3. Position the camera
-camera.position.z = 15;
-let targetZ = camera.position.z;
+camera.position.set(10, 0, 10); // Diagonal view toward eastern hemisphere
+camera.lookAt(0, 0, 0); // Look at Earth’s center
+let targetZ = 10;
 
 // 4. Add a flag (example: USA)
 // Helper function to create a text sprite

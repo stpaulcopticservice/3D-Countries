@@ -12,12 +12,12 @@ const geometry = new THREE.SphereGeometry(earthSize, 32, 32);
 const texture = new THREE.TextureLoader().load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg');
 const material = new THREE.MeshBasicMaterial({ map: texture });
 const earth = new THREE.Mesh(geometry, material);
+// Set initial rotation to show Africa (approximately 20° east longitude)
+earth.rotation.y = 20 * (Math.PI / 180); // Rotate 20 degrees eastward to center Africa
 scene.add(earth);
 
 // 3. Position the camera
 camera.position.z = 15;
-camera.position.set(10, 5, 10); // X:10 (right), Y:5 (up), Z:10 (forward)
-camera.lookAt(0, 0, 0); // Point camera at Earth's center
 let targetZ = camera.position.z;
 
 // 4. Add a flag (example: USA)

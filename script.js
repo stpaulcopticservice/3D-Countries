@@ -76,9 +76,45 @@ function latLonToVector3(lat, lon, radius) {
     );
 }
 
-addFlag(37.0902, -95.7129, 'pics/us.png', 'United States of America', 'https://en.wikipedia.org/wiki/United_States');
 addFlag(-12.743645005821566, 17.527057103442704, 'pics/angola.png', 'Angola', 'https://en.wikipedia.org/wiki/angola');
-addFlag(23.96036708675922, 90.17157650950259, 'https://flagcdn.com/32x24/us.png', 'Bangladesh', 'https://en.wikipedia.org/wiki/bangladesh');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/bangladesh.png', 'Bangladesh', 'https://en.wikipedia.org/wiki/bangladesh');
+
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Benin.png', 'Benin', 'https://en.wikipedia.org/wiki/Benin');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Botswana.png', 'Botswana', 'https://en.wikipedia.org/wiki/Botswana');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Burundi.png', 'Burundi', 'https://en.wikipedia.org/wiki/Burundi');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Cambodia.png', 'Cambodia', 'https://en.wikipedia.org/wiki/Cambodia');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Cameroon.png', 'Cameroon', 'https://en.wikipedia.org/wiki/Cameroon');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Cape Verde.webp', 'Cape Verde', 'https://en.wikipedia.org/wiki/Cape Verde');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Centrafrique.png', 'Centrafrique', 'https://en.wikipedia.org/wiki/Centrafrique');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/China.png', 'China', 'https://en.wikipedia.org/wiki/China');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Cotedivoire.png', 'Cotedivoire', 'https://en.wikipedia.org/wiki/Cotedivoire');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Ethiopia.png', 'Ethiopia', 'https://en.wikipedia.org/wiki/Ethiopia');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Gabon.png', 'Gabon', 'https://en.wikipedia.org/wiki/Gabon');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Ghana.png', 'Ghana', 'https://en.wikipedia.org/wiki/Ghana');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Hong Kong.png', 'Hong Kong', 'https://en.wikipedia.org/wiki/Hong Kong');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/India.png', 'India', 'https://en.wikipedia.org/wiki/India');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Indonesia.png', 'Indonesia', 'https://en.wikipedia.org/wiki/Indonesia');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Kurdistan.png', 'Kurdistan', 'https://en.wikipedia.org/wiki/Kurdistan');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Liberia.png', 'Liberia', 'https://en.wikipedia.org/wiki/Liberia');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Madagascar.png', 'Madagascar', 'https://en.wikipedia.org/wiki/Madagascar');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Malawi.png', 'Malawi', 'https://en.wikipedia.org/wiki/Malawi');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Malaysia.png', 'Malaysia', 'https://en.wikipedia.org/wiki/Malaysia');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Mauritius.png', 'Mauritius', 'https://en.wikipedia.org/wiki/Mauritius');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Morocco.png', 'Morocco', 'https://en.wikipedia.org/wiki/Morocco');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Namibia.png', 'Namibia', 'https://en.wikipedia.org/wiki/Namibia');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Nepal.png', 'Nepal', 'https://en.wikipedia.org/wiki/Nepal');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Philippines.png', 'Philippines', 'https://en.wikipedia.org/wiki/Philippines');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Rwanda.png', 'Rwanda', 'https://en.wikipedia.org/wiki/Rwanda');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/South Africa.png', 'South Africa', 'https://en.wikipedia.org/wiki/South Africa');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/South Korea.png', 'South Korea', 'https://en.wikipedia.org/wiki/South Korea');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/South Sudan​.png', 'South Sudan', 'https://en.wikipedia.org/wiki/South Sudan');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Sri lanka.png', 'Sri lanka', 'https://en.wikipedia.org/wiki/Sri lanka');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Taiwan.png', 'Taiwan', 'https://en.wikipedia.org/wiki/Taiwan');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Togo.png', 'Togo', 'https://en.wikipedia.org/wiki/Togo');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Ughanda.png', 'Ughanda', 'https://en.wikipedia.org/wiki/Ughanda');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Vietnam.png', 'Vietnam', 'https://en.wikipedia.org/wiki/Vietnam');
+addFlag(23.96036708675922, 90.17157650950259, 'pics/Zimbabwe.png', 'Zimbabwe', 'https://en.wikipedia.org/wiki/Zimbabwe');
+
 
 // 5. Rotate the Earth with the mouse
 let isDragging = false;

@@ -77,7 +77,7 @@ function latLonToVector3(lat, lon, radius) {
 }
  
 addFlag(37.0902, -95.7129, 'https://flagcdn.com/32x24/us.png', 'United States of America', 'https://en.wikipedia.org/wiki/United_States');
-addFlag(-12.743645005821566, 17.527057103442704, 'https://github.com/stpaulcopticservice/3D-Countries/main/pics/us.png?raw=true', 'Angola', 'https://en.wikipedia.org/wiki/angola');
+addFlag(-12.743645005821566, 17.527057103442704, 'https://raw.githubusercontent.com/stpaulcopticservice/3D-Countries/main/pics/us.png', 'Angola', 'https://en.wikipedia.org/wiki/angola');
 addFlag(23.96036708675922, 90.17157650950259, 'https://flagcdn.com/32x24/us.png', 'Bangladesh', 'https://en.wikipedia.org/wiki/bangladesh');
 
 // 5. Rotate the Earth with the mouse

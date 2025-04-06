@@ -13,7 +13,7 @@ const texture = new THREE.TextureLoader().load('https://threejs.org/examples/tex
 const material = new THREE.MeshBasicMaterial({ map: texture });
 const earth = new THREE.Mesh(geometry, material);
 // Set initial rotation to show Africa (approximately 20° east longitude)
-earth.rotation.y = 180 * (Math.PI / 180); // Rotate 20 degrees eastward to center Africa
+earth.rotation.y = 270 * (Math.PI / 180); // Rotate 20 degrees eastward to center Africa
 console.log('Initial earth.rotation.y:', earth.rotation.y); // Should output ~0.5236 radians (30°)
 scene.add(earth);
 

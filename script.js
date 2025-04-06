@@ -5,19 +5,6 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('globe').appendChild(renderer.domElement);
 
-// 2. Add rotation control variable (before animation loop)
-let isRotating = true; // Earth rotates by default
-
-// Add button event listeners (place after the existing event listeners)
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('play-btn').addEventListener('click', () => {
-        isRotating = true;
-    });
-
-    document.getElementById('stop-btn').addEventListener('click', () => {
-        isRotating = false;
-    });
-});
 
 // 2. Create the Earth
 const earthSize = 5;
@@ -28,24 +15,21 @@ const earth = new THREE.Mesh(geometry, material);
 scene.add(earth);
 
 // 3. Position the camera
-//camera.position.z = 15;
-//let targetZ = camera.position.z;
-camera.position.set(10, 5, 10); // X:10 (right), Y:5 (up), Z:10 (forward)
-camera.lookAt(0, 0, 0); // Point camera at Earth's center
-let targetZ = 15; // Keep this for zoom functionality
+camera.position.z = 15;
+let targetZ = camera.position.z;
 
 // 4. Add a flag (example: USA)
 // Helper function to create a text sprite
 function createTextSprite(text) {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
-    const fontSize = 20;
+    const fontSize = 32;
     context.font = `${fontSize}px Arial`;
     
     // Measure text width to set canvas size
     const textWidth = context.measureText(text).width;
-    canvas.width = textWidth + 5; // Add padding
-    canvas.height = fontSize + 5;
+    canvas.width = textWidth + 20; // Add padding
+    canvas.height = fontSize + 20;
     
     // Redraw text on the canvas
     context.font = `${fontSize}px Arial`;
@@ -78,7 +62,7 @@ function addFlag(lat, lon, imagePath, description, url) {
     // Add country name as a text sprite
     const textSprite = createTextSprite(description.split(' ').slice(-1)[0]); // Use last word (e.g., "America" or "Brazil")
     textSprite.position.copy(position);
-    textSprite.position.x += 0.5; // Offset to the right of the flag
+    textSprite.position.x += 1; // Offset to the right of the flag
     earth.add(textSprite);
 }
 
@@ -318,9 +302,7 @@ function animate() {
     camera.position.z += (targetZ - camera.position.z) * smoothingFactor;
     
     // Auto-rotate the Earth
-if (isRotating) {
-        earth.rotation.y += 0.001;
-    }
+    earth.rotation.y += 0.001;
 
     // Animate stars: blinking and smooth motion
     const positions = starsGeometry.attributes.position.array;

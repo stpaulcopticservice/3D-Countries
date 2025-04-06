@@ -295,6 +295,24 @@ const starsMaterial = new THREE.PointsMaterial({
 const starField = new THREE.Points(starsGeometry, starsMaterial);
 scene.add(starField);
 
+//***********
+let isRotating = true; // Start with rotation enabled
+// Add button event listeners after the existing event listeners (e.g., after the touchend listeners)
+const playButton = document.getElementById('play-btn');
+const stopButton = document.getElementById('stop-btn');
+
+playButton.addEventListener('click', () => {
+    isRotating = true;
+    console.log('Earth rotation started');
+});
+
+stopButton.addEventListener('click', () => {
+    isRotating = false;
+    console.log('Earth rotation stopped');
+});
+//***********
+
+
 // 8. Animation loop
 function animate() {
     requestAnimationFrame(animate);
@@ -302,7 +320,9 @@ function animate() {
     camera.position.z += (targetZ - camera.position.z) * smoothingFactor;
     
     // Auto-rotate the Earth
-    earth.rotation.y += 0.001;
+if (isRotating) {
+        earth.rotation.y += 0.001;
+    }
 
     // Animate stars: blinking and smooth motion
     const positions = starsGeometry.attributes.position.array;

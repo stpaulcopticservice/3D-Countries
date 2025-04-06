@@ -23,7 +23,7 @@ let targetZ = camera.position.z;
 function createTextSprite(text) {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
-    const fontSize = 20;
+    const fontSize = 5;
     context.font = `${fontSize}px Arial`;
     
     // Measure text width to set canvas size

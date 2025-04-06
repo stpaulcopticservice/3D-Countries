@@ -44,8 +44,6 @@
             font-size: 16px;
             text-decoration: none;
             z-index: 2000; /* Above the globe and popups */
-            <button id="play-btn" style="position: absolute; top: 180px; left: 10px; z-index: 2000; padding: 5px 10px; font-family: Arial, sans-serif;">Play</button>
-            <button id="stop-btn" style="position: absolute; top: 180px; left: 80px; z-index: 2000; padding: 5px 10px; font-family: Arial, sans-serif;">Stop</button>
         }
         #nav-link:hover {
             text-decoration: underline; /* Hover effect */
@@ -57,10 +55,12 @@
     <img id="logo" src="https://github.com/stpaulcopticservice/3D-Countries/blob/main/pics/Logo.jpg?raw=true" alt="Logo"> <!-- Replace with your logo URL -->
     <div id="title">Countries Reached by St. Paul Coptic Service</div>
     <a id="nav-link" href="https://stpaulcopticservice.org/" target="_blank">Home > Countries</a> <!-- Replace with your URL -->
-    <script src="script.js"></script> <!-- Loads your code -->
-    
+    <button id="play-btn" style="position: absolute; top: 180px; left: 10px; z-index: 2000; padding: 5px 10px; font-family: Arial, sans-serif;">Play</button>
+    <button id="stop-btn" style="position: absolute; top: 180px; left: 80px; z-index: 2000; padding: 5px 10px; font-family: Arial, sans-serif;">Stop</button>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script> <!-- Loads Three.js -->
-
+    <!-- Moved script.js to the end of the body -->
+    <script src="script.js"></script>
     <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'92a799d0380e53a9',t:'MTc0MzY3MzE4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'92c107c43aeeb0ac',t:'MTc0MzkzOTgzNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>

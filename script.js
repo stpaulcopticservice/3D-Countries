@@ -43,7 +43,7 @@ function createTextSprite(text) {
     texture.needsUpdate = true;
     const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
     const sprite = new THREE.Sprite(spriteMaterial);
-    sprite.scale.set(0.3, 0.3, 1); // Adjust scale
+    sprite.scale.set(0.4, 0.4, 1); // Adjust scale
     return sprite;
 }
 
@@ -61,7 +61,7 @@ function addFlag(lat, lon, imagePath, description, url) {
 
     // Add country name as a text sprite
     const textSprite = createTextSprite(description.split(' ').slice(-1)[0]); // Use last word (e.g., "America" or "Brazil")
-    const textPosition = latLonToVector3(lat, lon, earthSize + 0.5);
+    const textPosition = latLonToVector3(lat, lon, earthSize + 0.2);
     textSprite.position.copy(textPosition);
     textSprite.position.x += 0.5; // Offset to the right of the flag
     earth.add(textSprite);

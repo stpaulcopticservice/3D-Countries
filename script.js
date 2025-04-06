@@ -23,7 +23,7 @@ let targetZ = camera.position.z;
 function createTextSprite(text) {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
-    const fontSize = 1;
+    const fontSize = 10;
     context.font = `${fontSize}px Arial`;
     
     // Measure text width to set canvas size
@@ -54,7 +54,7 @@ function addFlag(lat, lon, imagePath, description, url) {
     const flagMaterial = new THREE.SpriteMaterial({ map: flagTexture });
     const flag = new THREE.Sprite(flagMaterial);
     flag.scale.set(0.5, 0.5, 1);
-    const position = latLonToVector3(lat, lon, earthSize + 0.1);
+    const position = latLonToVector3(lat, lon, earthSize + 0.05);
     flag.position.copy(position);
     flag.userData = { description, url };
     earth.add(flag);
@@ -62,7 +62,7 @@ function addFlag(lat, lon, imagePath, description, url) {
     // Add country name as a text sprite
     const textSprite = createTextSprite(description.split(' ').slice(-1)[0]); // Use last word (e.g., "America" or "Brazil")
     textSprite.position.copy(position);
-    textSprite.position.x += 1; // Offset to the right of the flag
+    textSprite.position.x += 0.5; // Offset to the right of the flag
     earth.add(textSprite);
 }
 
@@ -84,14 +84,14 @@ addFlag(-22.175314123115026, 23.76696251134455, 'pics/Botswana.png', 'Botswana',
 addFlag(-3.3173404778803137, 29.90478468854099, 'pics/Burundi.png', 'Burundi', 'https://en.wikipedia.org/wiki/Burundi');
 addFlag(12.722999519501395, 104.88989887659469, 'pics/Cambodia.png', 'Cambodia', 'https://en.wikipedia.org/wiki/Cambodia');
 addFlag(5.7012304293807015, 12.631252553597442, 'pics/Cameroon.png', 'Cameroon', 'https://en.wikipedia.org/wiki/Cameroon');
-addFlag(15.1198077916759, -23.653611743247755, 'pics/Cape Verde.webp', 'Cape Verde', 'https://en.wikipedia.org/wiki/Cape Verde');
+addFlag(15.1198077916759, -23.653611743247755, 'pics/Cape Verde.webp', 'Cape-Verde', 'https://en.wikipedia.org/wiki/Cape Verde');
 addFlag(6.67976455656623, 20.35119336395043, 'pics/Centrafrique.png', 'Centrafrique', 'https://en.wikipedia.org/wiki/Centrafrique');
 addFlag(34.51530619105819, 103.22217194552952, 'pics/China.png', 'China', 'https://en.wikipedia.org/wiki/China');
 addFlag(7.653315549601553, -5.671735475554573, 'pics/Cotedivoire.png', 'Cotedivoire', 'https://en.wikipedia.org/wiki/Cotedivoire');
 addFlag(8.56793254967727, 39.58393084344826, 'pics/Ethiopia.png', 'Ethiopia', 'https://en.wikipedia.org/wiki/Ethiopia');
 addFlag(-0.6151621031727836, 11.766128403104116, 'pics/Gabon.png', 'Gabon', 'https://en.wikipedia.org/wiki/Gabon');
 addFlag(7.892869444147389, -1.264522361075414, 'pics/Ghana.png', 'Ghana', 'https://en.wikipedia.org/wiki/Ghana');
-addFlag(22.33333792844559, 114.1683220804722, 'pics/Hong Kong.png', 'Hong Kong', 'https://en.wikipedia.org/wiki/Hong Kong');
+addFlag(22.33333792844559, 114.1683220804722, 'pics/Hong Kong.png', 'Hong-Kong', 'https://en.wikipedia.org/wiki/Hong Kong');
 addFlag(22.715214876844477, 79.31127265499855, 'pics/India.png', 'India', 'https://en.wikipedia.org/wiki/India');
 addFlag(-4.3725139148386125, 121.96954165444961, 'pics/Indonesia.png', 'Indonesia', 'https://en.wikipedia.org/wiki/Indonesia');
 addFlag(36.4830309358992, 44.46496135873001, 'pics/Kurdistan.png', 'Kurdistan', 'https://en.wikipedia.org/wiki/Kurdistan');
@@ -105,10 +105,10 @@ addFlag(-22.250026925824525, 17.115713841237216, 'pics/Namibia.png', 'Namibia', 
 addFlag(28.226878925843483, 83.94871932428602, 'pics/Nepal.png', 'Nepal', 'https://en.wikipedia.org/wiki/Nepal');
 addFlag(12.489064741848605, 122.76638479402898, 'pics/Philippines.png', 'Philippines', 'https://en.wikipedia.org/wiki/Philippines');
 addFlag(-2.01450710203143, 29.903916010204767, 'pics/Rwanda.png', 'Rwanda', 'https://en.wikipedia.org/wiki/Rwanda');
-addFlag(-30.565676476604168, 24.505478515961514, 'pics/South Africa.png', 'South Africa', 'https://en.wikipedia.org/wiki/South Africa');
-addFlag(36.62543419022551, 127.76006031649544, 'pics/South Korea.png', 'South Korea', 'https://en.wikipedia.org/wiki/South Korea');
-addFlag(7.698868198315276, 29.900266870514184, 'pics/South Sudan​.png', 'South Sudan', 'https://en.wikipedia.org/wiki/South Sudan');
-addFlag(7.620827516982456, 80.70172071081487, 'pics/Sri lanka.png', 'Sri lanka', 'https://en.wikipedia.org/wiki/Sri lanka');
+addFlag(-30.565676476604168, 24.505478515961514, 'pics/South Africa.png', 'South-Africa', 'https://en.wikipedia.org/wiki/South Africa');
+addFlag(36.62543419022551, 127.76006031649544, 'pics/South Korea.png', 'South-Korea', 'https://en.wikipedia.org/wiki/South Korea');
+addFlag(7.698868198315276, 29.900266870514184, 'pics/South Sudan​.png', 'South-Sudan', 'https://en.wikipedia.org/wiki/South Sudan');
+addFlag(7.620827516982456, 80.70172071081487, 'pics/Sri lanka.png', 'Sri-lanka', 'https://en.wikipedia.org/wiki/Sri lanka');
 addFlag(23.54408715108892, 120.90063025263785, 'pics/Taiwan.png', 'Taiwan', 'https://en.wikipedia.org/wiki/Taiwan');
 addFlag(8.60139653812938, 1.0256395120811614, 'pics/Togo.png', 'Togo', 'https://en.wikipedia.org/wiki/Togo');
 addFlag(1.4985063375534176, 32.29878519936324, 'pics/Ughanda.png', 'Ughanda', 'https://en.wikipedia.org/wiki/Ughanda');

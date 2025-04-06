@@ -28,8 +28,8 @@ function createTextSprite(text) {
     
     // Measure text width to set canvas size
     const textWidth = context.measureText(text).width;
-    canvas.width = textWidth + 2; // Add padding
-    canvas.height = fontSize + 2;
+    canvas.width = textWidth + 5; // Add padding
+    canvas.height = fontSize + 5;
     
     // Redraw text on the canvas
     context.font = `${fontSize}px Arial`;

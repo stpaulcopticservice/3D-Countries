@@ -23,13 +23,13 @@ let targetZ = camera.position.z;
 function createTextSprite(text) {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
-    const fontSize = 1;
+    const fontSize = 16;
     context.font = `${fontSize}px Arial`;
     
     // Measure text width to set canvas size
     const textWidth = context.measureText(text).width;
-    canvas.width = textWidth + 1; // Add padding
-    canvas.height = fontSize + 1;
+    canvas.width = textWidth + 20; // Add padding
+    canvas.height = fontSize + 20;
     
     // Redraw text on the canvas
     context.font = `${fontSize}px Arial`;
@@ -43,7 +43,7 @@ function createTextSprite(text) {
     texture.needsUpdate = true;
     const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
     const sprite = new THREE.Sprite(spriteMaterial);
-    sprite.scale.set(canvas.width / 100, canvas.height / 100, 1); // Adjust scale
+    sprite.scale.set(0.3, 0.3, 1); // Adjust scale
     return sprite;
 }
 

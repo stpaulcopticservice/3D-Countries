@@ -54,7 +54,7 @@ function addFlag(lat, lon, imagePath, description, url) {
     const flagMaterial = new THREE.SpriteMaterial({ map: flagTexture });
     const flag = new THREE.Sprite(flagMaterial);
     flag.scale.set(0.5, 0.5, 1);
-    const position = latLonToVector3(lat, lon, earthSize + 0.05);
+    const position = latLonToVector3(lat, lon, earthSize + 3);
     flag.position.copy(position);
     flag.userData = { description, url };
     earth.add(flag);

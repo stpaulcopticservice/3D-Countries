@@ -9,12 +9,14 @@ document.getElementById('globe').appendChild(renderer.domElement);
 let isRotating = true; // Earth rotates by default
 
 // Add button event listeners (place after the existing event listeners)
-document.getElementById('play-btn').addEventListener('click', () => {
-    isRotating = true;
-});
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('play-btn').addEventListener('click', () => {
+        isRotating = true;
+    });
 
-document.getElementById('stop-btn').addEventListener('click', () => {
-    isRotating = false;
+    document.getElementById('stop-btn').addEventListener('click', () => {
+        isRotating = false;
+    });
 });
 
 // 2. Create the Earth

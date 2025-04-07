@@ -1,10 +1,10 @@
-// 1. Set up the basics
+    // 1. Set up the basics
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('globe').appendChild(renderer.domElement);
-
+const textSprites = []; // Array to store all text sprites
 
 // 2. Create the Earth
 const earthSize = 5;
@@ -65,7 +65,9 @@ function addFlag(lat, lon, imagePath, description, url) {
     textSprite.position.copy(textPosition);
     textSprite.position.y += 0.01; // Offset to the right of the flag
     textSprite.userData = { description, url }; // Attach the same data to text sprite
+    textSprite.visible = false; // Hide by default
     earth.add(textSprite);
+    textSprites.push(textSprite); // Store in array
 }
 
 function latLonToVector3(lat, lon, radius) {
@@ -138,6 +140,7 @@ document.addEventListener('mouseup', () => { isDragging = false; });
 // Touch events
 document.addEventListener('touchstart', (e) => {
     e.preventDefault(); // Prevent scrolling
+    isDragging = false; // Reset dragging flag
     if (e.touches.length === 1) {
         isDragging = true;
         previousTouch.x = e.touches[0].clientX;
@@ -175,8 +178,12 @@ document.addEventListener('touchmove', (e) => {
 
 document.addEventListener('touchend', (e) => {
     e.preventDefault();
-    isDragging = false;
-});
+    if (e.changedTouches.length === 1 && !isDragging) {
+        const touch = e.changedTouches[0];
+        console.log('Touchend at:', touch.clientX, touch.clientY);
+        showPopup(e, touch.clientX, touch.clientY);
+    }
+}, { passive: false });
 
 // 6. Click/Touch flags for popups
 const raycaster = new THREE.Raycaster();

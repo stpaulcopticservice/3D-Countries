@@ -349,6 +349,13 @@ hideTextButton.addEventListener('click', () => {
     textSprites.forEach(sprite => sprite.visible = false);
     console.log('Text sprites hidden');
 });
+
+hideTextButton.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    textSprites.forEach(sprite => sprite.visible = false);
+    console.log('Text sprites hidden (mobile)');
+});
 //***********
 
 // 8. Animation loop

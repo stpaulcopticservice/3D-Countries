@@ -9,7 +9,7 @@ document.getElementById('globe').appendChild(renderer.domElement);
 // 2. Create the Earth
 const earthSize = 5;
 const geometry = new THREE.SphereGeometry(earthSize, 32, 32);
-const texture = new THREE.TextureLoader().load('pics/earth_lights.png');
+const texture = new THREE.TextureLoader().load('pics/BlackMarble.jpg');
 const material = new THREE.MeshBasicMaterial({ map: texture });
 const earth = new THREE.Mesh(geometry, material);
 scene.add(earth);

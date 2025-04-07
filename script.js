@@ -384,7 +384,7 @@ function animate() {
     
     // Auto-rotate the Earth
 if (isRotating) {
-        earth.rotation.y += 0.001;
+        earth.rotation.y -= 0.001;
     }
 
     // Animate stars: blinking and smooth motion

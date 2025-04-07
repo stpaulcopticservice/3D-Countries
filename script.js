@@ -64,6 +64,7 @@ function addFlag(lat, lon, imagePath, description, url) {
     const textPosition = latLonToVector3(lat, lon, earthSize + 0.1);
     textSprite.position.copy(textPosition);
     textSprite.position.y += 0.01; // Offset to the right of the flag
+    textSprite.userData = { description, url }; // Attach the same data to text sprite
     earth.add(textSprite);
 }
 

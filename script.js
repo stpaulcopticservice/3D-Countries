@@ -335,26 +335,26 @@ stopButton.addEventListener('touchend', (e) => {
 });
 showTextButton.addEventListener('click', () => {
     textSprites.forEach(sprite => sprite.visible = true);
-    console.log('Text sprites shown');
+    renderer.render(scene, camera); // Force render update
 });
 
 showTextButton.addEventListener('touchend', (e) => {
     e.preventDefault();
     e.stopPropagation();
     textSprites.forEach(sprite => sprite.visible = true);
-    console.log('Text sprites shown (mobile)');
+    renderer.render(scene, camera); // Force render update
 });
 
 hideTextButton.addEventListener('click', () => {
     textSprites.forEach(sprite => sprite.visible = false);
-    console.log('Text sprites hidden');
+    renderer.render(scene, camera); // Force render update
 });
 
 hideTextButton.addEventListener('touchend', (e) => {
     e.preventDefault();
     e.stopPropagation();
     textSprites.forEach(sprite => sprite.visible = false);
-    console.log('Text sprites hidden (mobile)');
+    renderer.render(scene, camera); // Force render update
 });
 //***********
 

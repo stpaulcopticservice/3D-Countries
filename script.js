@@ -309,6 +309,8 @@ let isRotating = true; // Start with rotation enabled
 // Add button event listeners after the existing event listeners (e.g., after the touchend listeners)
 const playButton = document.getElementById('play-btn');
 const stopButton = document.getElementById('stop-btn');
+const showTextButton = document.getElementById('show-text-btn');
+const hideTextButton = document.getElementById('hide-text-btn');
 
 playButton.addEventListener('click', () => {
     isRotating = true;
@@ -331,7 +333,23 @@ stopButton.addEventListener('touchend', (e) => {
     isRotating = false;
     console.log('Earth rotation stopped (mobile)');
 });
+showTextButton.addEventListener('click', () => {
+    textSprites.forEach(sprite => sprite.visible = true);
+    console.log('Text sprites shown');
+});
 
+showTextButton.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    textSprites.forEach(sprite => sprite.visible = true);
+    console.log('Text sprites shown (mobile)');
+});
+
+hideTextButton.addEventListener('click', () => {
+    textSprites.forEach(sprite => sprite.visible = false);
+    console.log('Text sprites hidden');
+});
+//***********
 
 // 8. Animation loop
 function animate() {

@@ -178,10 +178,13 @@ document.addEventListener('touchmove', (e) => {
 
 document.addEventListener('touchend', (e) => {
     e.preventDefault();
-    if (e.changedTouches.length === 1 && !isDragging) {
+    if (e.changedTouches.length === 1) {
         const touch = e.changedTouches[0];
-        console.log('Touchend at:', touch.clientX, touch.clientY);
-        showPopup(e, touch.clientX, touch.clientY);
+        console.log('Touchend at:', touch.clientX, touch.clientY, 'isDragging:', isDragging);
+        if (!isDragging) { // Only trigger popup if not dragging
+            showPopup(e, touch.clientX, touch.clientY);
+        }
+        isDragging = false; // Reset dragging flag
     }
 }, { passive: false });
 

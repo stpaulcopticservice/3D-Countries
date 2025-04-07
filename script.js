@@ -306,12 +306,23 @@ playButton.addEventListener('click', () => {
     isRotating = true;
     console.log('Earth rotation started');
 });
+playButton.addEventListener('touchend', (e) => {
+    e.preventDefault(); // Prevent other touch events from interfering
+    e.stopPropagation(); // Stop the event from bubbling up
+    isRotating = true;
+    console.log('Earth rotation started (mobile)');
+});
 
 stopButton.addEventListener('click', () => {
     isRotating = false;
     console.log('Earth rotation stopped');
 });
-//***********
+stopButton.addEventListener('touchend', (e) => {
+    e.preventDefault(); // Prevent other touch events from interfering
+    e.stopPropagation(); // Stop the event from bubbling up
+    isRotating = false;
+    console.log('Earth rotation stopped (mobile)');
+});
 
 
 // 8. Animation loop

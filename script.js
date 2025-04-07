@@ -188,6 +188,21 @@ document.addEventListener('touchend', (e) => {
     }
 }, { passive: false });
 
+const navLink1 = document.getElementById('nav-link1');
+navLink1.addEventListener('touchend', (e) => {
+    e.preventDefault(); // Prevent any conflicting touch behavior
+    e.stopPropagation(); // Stop the event from bubbling up to other listeners
+    window.open(navLink1.href, '_blank'); // Manually open the link in a new tab
+    console.log('Nav link clicked on mobile');
+});
+const navLink2 = document.getElementById('nav-link2');
+navLink2.addEventListener('touchend', (e) => {
+    e.preventDefault(); // Prevent any conflicting touch behavior
+    e.stopPropagation(); // Stop the event from bubbling up to other listeners
+    window.open(navLink2.href, '_blank'); // Manually open the link in a new tab
+    console.log('Nav link clicked on mobile');
+});
+
 // 6. Click/Touch flags for popups
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();

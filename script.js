@@ -131,7 +131,7 @@ const latRad = THREE.MathUtils.degToRad(lat);
 const lonRad = THREE.MathUtils.degToRad(lon);
 // Rotations to bring the point to front
 const targetRotationY = -lonRad;                // Longitude
-const targetRotationX = THREE.MathUtils.degToRad(lat - 90); // Latitude
+const targetRotationX = THREE.MathUtils.degToRad(lat); // Latitude
     
     // Target rotation in Three.js coordinate system
     // Earth’s Y-axis is horizontal (longitude), X-axis is vertical (latitude)

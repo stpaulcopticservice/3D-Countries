@@ -120,9 +120,66 @@ function populateCombobox() {
 }
 populateCombobox();
 
-Selected country: Angola, Lat: -12.615024081440861, Lon: 17.702838355419715
-script.js:125 Rotating to -12.615024081440861, 17.702838355419715
-script.js:136 Target rotation: X=0.22017370543951653, Y=-0.3089728162504122
+// Function to rotate and zoom to a country
+function rotateAndZoomToCountry(lat, lon) {
+    console.log(`Rotating to ${lat}, ${lon}`);
+
+    // Convert lat/lon to spherical coordinates
+    const phi = (90 - lat) * (Math.PI / 180); // Latitude to phi
+    const theta = lon * (Math.PI / 180); // Longitude to theta
+
+    // Adjust rotation for Three.js and texture alignment
+    const targetRotationX = phi - Math.PI / 2; // Align latitude
+    const targetRotationY = -theta + Math.PI; // Offset by π (180°) to align with typical Earth texture
+
+    console.log(`Target rotation: X=${targetRotationX}, Y=${targetRotationY}`);
+
+    // Calculate the target position on the Earth's surface for camera focus
+    const targetPosition = latLonToVector3(lat, lon, earthSize);
+    console.log(`Target position: ${targetPosition.x}, ${targetPosition.y}, ${targetPosition.z}`);
+
+    // Smoothly interpolate rotation and zoom
+    const duration = 1000;
+    const startTime = Date.now();
+    const initialRotationX = earth.rotation.x;
+    const initialRotationY = earth.rotation.y;
+    const initialCameraZ = camera.position.z;
+    const initialCameraPos = camera.position.clone();
+
+    function animateTransition() {
+        const elapsed = Date.now() - startTime;
+        const t = Math.min(elapsed / duration, 1);
+
+        // Interpolate rotation
+        earth.rotation.x = initialRotationX + (targetRotationX - initialRotationX) * t;
+        earth.rotation.y = initialRotationY + (targetRotationY - initialRotationY) * t;
+
+        // Interpolate camera zoom and position
+        targetZ = 8; // Zoom in closer
+        camera.position.z = initialCameraZ + (targetZ - initialCameraZ) * t;
+
+        // Optional: Adjust camera to look at the target position
+        camera.lookAt(targetPosition);
+
+        if (t < 1) {
+            requestAnimationFrame(animateTransition);
+        }
+        renderer.render(scene, camera);
+    }
+    animateTransition();
+}
+
+// Add event listener for combobox selection
+const countrySelect = document.getElementById('country-select');
+countrySelect.addEventListener('change', (e) => {
+    const selectedIndex = e.target.value;
+    console.log(`Selected index: ${selectedIndex}`);
+    if (selectedIndex !== '') {
+        const country = countries[selectedIndex];
+        console.log(`Selected country: ${country.description}, Lat: ${country.lat}, Lon: ${country.lon}`);
+        rotateAndZoomToCountry(country.lat, country.lon);
+    }
+});
 //****************
 
 // 4. Add a flag (example: USA)

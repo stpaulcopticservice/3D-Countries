@@ -17,6 +17,107 @@ scene.add(earth);
 // 3. Position the camera
 camera.position.z = 15;
 let targetZ = camera.position.z;
+//****************
+// Array to store country data
+const countries = [];
+
+// Updated addFlag function to store country data
+function addFlag(lat, lon, imagePath, description, url) {
+    console.log(`Trying to load flag: ${imagePath}`);
+    const flagTexture = new THREE.TextureLoader().load(imagePath);
+    const flagMaterial = new THREE.SpriteMaterial({ map: flagTexture });
+    const flag = new THREE.Sprite(flagMaterial);
+    flag.scale.set(0.5, 0.5, 1);
+    const flagPosition = latLonToVector3(lat, lon, earthSize + 0.01);
+    flag.position.copy(flagPosition);
+    flag.userData = { description, url, lat, lon }; // Store lat/lon for rotation
+    earth.add(flag);
+
+    // Add country name as a text sprite (unchanged)
+    const textSprite = createTextSprite(description.split(' ').slice(-1)[0]);
+    const textPosition = latLonToVector3(lat, lon, earthSize + 0.1);
+    textSprite.position.copy(textPosition);
+    textSprite.position.y += 0.01;
+    textSprite.userData = { description, url };
+    textSprite.visible = false;
+    earth.add(textSprite);
+    textSprites.push(textSprite);
+
+    // Store country data for the combobox
+    countries.push({ lat, lon, description, imagePath });
+}
+
+// Helper function to convert lat/lon to Vector3 (unchanged)
+function latLonToVector3(lat, lon, radius) {
+    const phi = (90 - lat) * (Math.PI / 180);
+    const theta = (lon + 180) * (Math.PI / 180);
+    return new THREE.Vector3(
+        -radius * Math.sin(phi) * Math.cos(theta),
+        radius * Math.cos(phi),
+        radius * Math.sin(phi) * Math.sin(theta)
+    );
+}
+
+// Add all countries (unchanged, just showing a few for brevity)
+addFlag(-12.615024081440861, 17.702838355419715, 'pics/angola.png', 'Angola', 'https://en.wikipedia.org/wiki/angola');
+addFlag(24.241168486816406, 90.21552182249683, 'pics/bangladesh.png', 'Bangladesh', 'https://en.wikipedia.org/wiki/bangladesh');
+// ... Add all other countries as in your original code ...
+
+// Populate the combobox
+const countrySelect = document.getElementById('country-select');
+countries.forEach((country, index) => {
+    const option = document.createElement('option');
+    option.value = index; // Use index as value to reference the country
+    option.textContent = country.description;
+    countrySelect.appendChild(option);
+});
+
+// Function to rotate and zoom to a country
+function rotateAndZoomToCountry(lat, lon) {
+    const targetPosition = latLonToVector3(lat, lon, earthSize);
+    const targetPhi = (90 - lat) * (Math.PI / 180);
+    const targetTheta = (lon + 180) * (Math.PI / 180);
+
+    // Calculate target rotation (adjust for Three.js coordinate system)
+    const targetRotationY = -targetTheta + Math.PI / 2; // Align country to center
+    const targetRotationX = targetPhi - Math.PI / 2;
+
+    // Smoothly interpolate rotation and zoom
+    const duration = 1000; // Animation duration in milliseconds
+    const startTime = Date.now();
+    const initialRotationX = earth.rotation.x;
+    const initialRotationY = earth.rotation.y;
+    const initialZ = camera.position.z;
+
+    function animateTransition() {
+        const elapsed = Date.now() - startTime;
+        const t = Math.min(elapsed / duration, 1); // Progress from 0 to 1
+
+        // Interpolate rotation
+        earth.rotation.x = initialRotationX + (targetRotationX - initialRotationX) * t;
+        earth.rotation.y = initialRotationY + (targetRotationY - initialRotationY) * t;
+
+        // Interpolate zoom
+        targetZ = 8; // Zoom in closer to the country
+        camera.position.z = initialZ + (targetZ - initialZ) * t;
+
+        if (t < 1) {
+            requestAnimationFrame(animateTransition);
+        }
+        renderer.render(scene, camera);
+    }
+    animateTransition();
+}
+
+// Add event listener for combobox selection
+countrySelect.addEventListener('change', (e) => {
+    const selectedIndex = e.target.value;
+    if (selectedIndex !== '') {
+        const country = countries[selectedIndex];
+        rotateAndZoomToCountry(country.lat, country.lon);
+    }
+});
+//****************
 
 // 4. Add a flag (example: USA)
 // Helper function to create a text sprite

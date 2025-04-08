@@ -152,7 +152,6 @@ function createTextSprite(text) {
 
 addFlag(-12.615024081440861, 17.702838355419715, 'pics/angola.png', 'Angola', 'https://en.wikipedia.org/wiki/angola');
 addFlag(24.241168486816406, 90.21552182249683, 'pics/bangladesh.png', 'Bangladesh', 'https://en.wikipedia.org/wiki/bangladesh');
-
 addFlag(9.6119132305124, 2.3048124740796214, 'pics/Benin.png', 'Benin', 'https://en.wikipedia.org/wiki/Benin');
 addFlag(-22.175314123115026, 23.76696251134455, 'pics/Botswana.png', 'Botswana', 'https://en.wikipedia.org/wiki/Botswana');
 addFlag(-3.3173404778803137, 29.90478468854099, 'pics/Burundi.png', 'Burundi', 'https://en.wikipedia.org/wiki/Burundi');

@@ -125,13 +125,18 @@ function rotateAndZoomToCountry(lat, lon) {
     console.log(`Rotating to ${lat}, ${lon}`); // Debug log
 
     // Convert lat/lon to spherical coordinates
-    const phi = (90 - lat) * (Math.PI / 180); // Latitude to phi (0 at north pole, π at south pole)
-    const theta = lon * (Math.PI / 180); // Longitude to theta (0 to 2π)
-
+    //const phi = (90 - lat) * (Math.PI / 180); // Latitude to phi (0 at north pole, π at south pole)
+    //const theta = lon * (Math.PI / 180); // Longitude to theta (0 to 2π)
+const latRad = THREE.MathUtils.degToRad(lat);
+const lonRad = THREE.MathUtils.degToRad(lon);
+// Rotations to bring the point to front
+const targetRotationY = -lonRad;                // Longitude
+const targetRotationX = THREE.MathUtils.degToRad(lat - 90); // Latitude
+    
     // Target rotation in Three.js coordinate system
     // Earth’s Y-axis is horizontal (longitude), X-axis is vertical (latitude)
-    const targetRotationY = -theta; // Negative to align with Earth’s texture
-    const targetRotationX = phi - Math.PI / 2; // Adjust to center the country
+    //const targetRotationY = -theta; // Negative to align with Earth’s texture
+    //const targetRotationX = phi - Math.PI / 2; // Adjust to center the country
 
     console.log(`Target rotation: X=${targetRotationX}, Y=${targetRotationY}`); // Debug log
 

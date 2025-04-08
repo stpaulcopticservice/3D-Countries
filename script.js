@@ -98,28 +98,45 @@ addFlag(14.387351567683456, 108.24468242656704, 'pics/Vietnam.png', 'Vietnam', '
 addFlag(-19.00243296076052, 29.83805675907035, 'pics/Zimbabwe.png', 'Zimbabwe', 'https://en.wikipedia.org/wiki/Zimbabwe');
 
 
-// Populate the combobox
+// Populate the combobox (unchanged)
 function populateCombobox() {
-const countrySelect = document.getElementById('country-select');
-countries.forEach((country, index) => {
-    const option = document.createElement('option');
-    option.value = index; // Use index as value to reference the country
-    option.textContent = country.description;
-    countrySelect.appendChild(option);
-});
+    const countrySelect = document.getElementById('country-select');
+    if (!countrySelect) {
+        console.error('Combobox element not found!');
+        return;
+    }
+    console.log('Populating combobox. Countries array length:', countries.length);
+    if (countries.length === 0) {
+        console.error('No countries in the array!');
+        return;
+    }
+    countries.forEach((country, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = country.description;
+        countrySelect.appendChild(option);
+    });
+    console.log('Combobox populated with', countrySelect.options.length - 1, 'countries');
+}
+populateCombobox();
 
-// Function to rotate and zoom to a country
+// Function to rotate and zoom to a country (corrected)
 function rotateAndZoomToCountry(lat, lon) {
-    const targetPosition = latLonToVector3(lat, lon, earthSize);
-    const targetPhi = (90 - lat) * (Math.PI / 180);
-    const targetTheta = (lon + 180) * (Math.PI / 180);
+    console.log(`Rotating to ${lat}, ${lon}`); // Debug log
 
-    // Calculate target rotation (adjust for Three.js coordinate system)
-    const targetRotationY = -targetTheta + Math.PI / 2; // Align country to center
-    const targetRotationX = targetPhi - Math.PI / 2;
+    // Convert lat/lon to spherical coordinates
+    const phi = (90 - lat) * (Math.PI / 180); // Latitude to phi (0 at north pole, π at south pole)
+    const theta = lon * (Math.PI / 180); // Longitude to theta (0 to 2π)
+
+    // Target rotation in Three.js coordinate system
+    // Earth’s Y-axis is horizontal (longitude), X-axis is vertical (latitude)
+    const targetRotationY = -theta; // Negative to align with Earth’s texture
+    const targetRotationX = phi - Math.PI / 2; // Adjust to center the country
+
+    console.log(`Target rotation: X=${targetRotationX}, Y=${targetRotationY}`); // Debug log
 
     // Smoothly interpolate rotation and zoom
-    const duration = 1000; // Animation duration in milliseconds
+    const duration = 1000;
     const startTime = Date.now();
     const initialRotationX = earth.rotation.x;
     const initialRotationY = earth.rotation.y;
@@ -127,14 +144,14 @@ function rotateAndZoomToCountry(lat, lon) {
 
     function animateTransition() {
         const elapsed = Date.now() - startTime;
-        const t = Math.min(elapsed / duration, 1); // Progress from 0 to 1
+        const t = Math.min(elapsed / duration, 1);
 
         // Interpolate rotation
         earth.rotation.x = initialRotationX + (targetRotationX - initialRotationX) * t;
         earth.rotation.y = initialRotationY + (targetRotationY - initialRotationY) * t;
 
         // Interpolate zoom
-        targetZ = 8; // Zoom in closer to the country
+        targetZ = 8; // Zoom in closer
         camera.position.z = initialZ + (targetZ - initialZ) * t;
 
         if (t < 1) {
@@ -145,11 +162,14 @@ function rotateAndZoomToCountry(lat, lon) {
     animateTransition();
 }
 
-// Add event listener for combobox selection
+// Add event listener for combobox selection (with debug)
+const countrySelect = document.getElementById('country-select');
 countrySelect.addEventListener('change', (e) => {
     const selectedIndex = e.target.value;
+    console.log(`Selected index: ${selectedIndex}`); // Debug log
     if (selectedIndex !== '') {
         const country = countries[selectedIndex];
+        console.log(`Selected country: ${country.description}, Lat: ${country.lat}, Lon: ${country.lon}`); // Debug log
         rotateAndZoomToCountry(country.lat, country.lon);
     }
 });

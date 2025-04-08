@@ -120,31 +120,27 @@ function populateCombobox() {
 }
 populateCombobox();
 
-// Function to rotate and zoom to a country
+// Function to rotate and zoom to a country (corrected)
 function rotateAndZoomToCountry(lat, lon) {
-    console.log(`Rotating to ${lat}, ${lon}`);
+    console.log(`Rotating to ${lat}, ${lon}`); // Debug log
 
     // Convert lat/lon to spherical coordinates
-    const phi = (90 - lat) * (Math.PI / 180); // Latitude to phi
-    const theta = lon * (Math.PI / 180); // Longitude to theta
+    const phi = (90 - lat) * (Math.PI / 180); // Latitude to phi (0 at north pole, π at south pole)
+    const theta = lon * (Math.PI / 180); // Longitude to theta (0 to 2π)
 
-    // Adjust rotation for Three.js and texture alignment
-    const targetRotationX = phi - Math.PI / 2; // Align latitude
-    const targetRotationY = -theta + Math.PI; // Offset by π (180°) to align with typical Earth texture
+    // Target rotation in Three.js coordinate system
+    // Earth’s Y-axis is horizontal (longitude), X-axis is vertical (latitude)
+    const targetRotationY = -theta; // Negative to align with Earth’s texture
+    const targetRotationX = phi - Math.PI / 2; // Adjust to center the country
 
-    console.log(`Target rotation: X=${targetRotationX}, Y=${targetRotationY}`);
-
-    // Calculate the target position on the Earth's surface for camera focus
-    const targetPosition = latLonToVector3(lat, lon, earthSize);
-    console.log(`Target position: ${targetPosition.x}, ${targetPosition.y}, ${targetPosition.z}`);
+    console.log(`Target rotation: X=${targetRotationX}, Y=${targetRotationY}`); // Debug log
 
     // Smoothly interpolate rotation and zoom
     const duration = 1000;
     const startTime = Date.now();
     const initialRotationX = earth.rotation.x;
     const initialRotationY = earth.rotation.y;
-    const initialCameraZ = camera.position.z;
-    const initialCameraPos = camera.position.clone();
+    const initialZ = camera.position.z;
 
     function animateTransition() {
         const elapsed = Date.now() - startTime;
@@ -154,12 +150,9 @@ function rotateAndZoomToCountry(lat, lon) {
         earth.rotation.x = initialRotationX + (targetRotationX - initialRotationX) * t;
         earth.rotation.y = initialRotationY + (targetRotationY - initialRotationY) * t;
 
-        // Interpolate camera zoom and position
+        // Interpolate zoom
         targetZ = 8; // Zoom in closer
-        camera.position.z = initialCameraZ + (targetZ - initialCameraZ) * t;
-
-        // Optional: Adjust camera to look at the target position
-        camera.lookAt(targetPosition);
+        camera.position.z = initialZ + (targetZ - initialZ) * t;
 
         if (t < 1) {
             requestAnimationFrame(animateTransition);
@@ -169,14 +162,14 @@ function rotateAndZoomToCountry(lat, lon) {
     animateTransition();
 }
 
-// Add event listener for combobox selection
+// Add event listener for combobox selection (with debug)
 const countrySelect = document.getElementById('country-select');
 countrySelect.addEventListener('change', (e) => {
     const selectedIndex = e.target.value;
-    console.log(`Selected index: ${selectedIndex}`);
+    console.log(`Selected index: ${selectedIndex}`); // Debug log
     if (selectedIndex !== '') {
         const country = countries[selectedIndex];
-        console.log(`Selected country: ${country.description}, Lat: ${country.lat}, Lon: ${country.lon}`);
+        console.log(`Selected country: ${country.description}, Lat: ${country.lat}, Lon: ${country.lon}`); // Debug log
         rotateAndZoomToCountry(country.lat, country.lon);
     }
 });

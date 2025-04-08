@@ -99,6 +99,7 @@ addFlag(-19.00243296076052, 29.83805675907035, 'pics/Zimbabwe.png', 'Zimbabwe', 
 
 
 // Populate the combobox
+function populateCombobox() {
 const countrySelect = document.getElementById('country-select');
 countries.forEach((country, index) => {
     const option = document.createElement('option');

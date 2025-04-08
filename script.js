@@ -130,7 +130,7 @@ function rotateAndZoomToCountry(lat, lon) {
 const latRad = THREE.MathUtils.degToRad(lat);
 const lonRad = THREE.MathUtils.degToRad(lon);
 // Rotations to bring the point to front
-const targetRotationY = lonRad;                // Longitude
+const targetRotationY = lonRad+180;                // Longitude
 const targetRotationX = THREE.MathUtils.degToRad(latRad); // Latitude
     
     // Target rotation in Three.js coordinate system

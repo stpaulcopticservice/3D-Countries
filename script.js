@@ -148,38 +148,7 @@ function createTextSprite(text) {
     return sprite;
 }
 
-// Updated addFlag function to include country name
-function addFlag(lat, lon, imagePath, description, url) {
-    console.log(`Trying to load flag: ${imagePath}`);
-    const flagTexture = new THREE.TextureLoader().load(imagePath);
-    const flagMaterial = new THREE.SpriteMaterial({ map: flagTexture });
-    const flag = new THREE.Sprite(flagMaterial);
-    flag.scale.set(0.5, 0.5, 1);
-    const flagPosition = latLonToVector3(lat, lon, earthSize + 0.01);
-    flag.position.copy(flagPosition);
-    flag.userData = { description, url };
-    earth.add(flag);
 
-    // Add country name as a text sprite
-    const textSprite = createTextSprite(description.split(' ').slice(-1)[0]); // Use last word (e.g., "America" or "Brazil")
-    const textPosition = latLonToVector3(lat, lon, earthSize + 0.1);
-    textSprite.position.copy(textPosition);
-    textSprite.position.y += 0.01; // Offset to the right of the flag
-    textSprite.userData = { description, url }; // Attach the same data to text sprite
-    textSprite.visible = false; // Hide by default
-    earth.add(textSprite);
-    textSprites.push(textSprite); // Store in array
-}
-
-function latLonToVector3(lat, lon, radius) {
-    const phi = (90 - lat) * (Math.PI / 180);
-    const theta = (lon + 180) * (Math.PI / 180);
-    return new THREE.Vector3(
-        -radius * Math.sin(phi) * Math.cos(theta),
-        radius * Math.cos(phi),
-        radius * Math.sin(phi) * Math.sin(theta)
-    );
-}
 
 addFlag(-12.615024081440861, 17.702838355419715, 'pics/angola.png', 'Angola', 'https://en.wikipedia.org/wiki/angola');
 addFlag(24.241168486816406, 90.21552182249683, 'pics/bangladesh.png', 'Bangladesh', 'https://en.wikipedia.org/wiki/bangladesh');
